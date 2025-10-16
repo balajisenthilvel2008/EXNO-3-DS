@@ -31,8 +31,120 @@ We use this categorical data encoding technique when the features are nominal(do
 • Yeojohnson method
 
 # CODING AND OUTPUT:
-       # INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS HERE
+```
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder,OrdinalEncoder
+from category_encoders import BinaryEncoder
+import statsmodels.api as sm
+import scipy.stats as stats
+from sklearn.preprocessing import QuantileTransformer
+data=pd.read_csv(r"C:\Users\acer\Downloads\data.csv")
+df=pd.DataFrame(data)
+df
+
+```
+
+![alt text](image.png)
+
+```
+df.isnull()
+
+```
+
+![alt text](image-1.png)
+
+```
+le=LabelEncoder()
+df3=pd.DataFrame()
+df3["City"]=df["City"]
+df3["City_encoded"]=le.fit_transform(df['City'])
+print(df3)
+```
+
+![alt text](image-2.png)
+
+```
+df2=pd.DataFrame()
+df2['Ord_2']=df["Ord_2"]
+education=['High School','Diploma','Bachelors','Masters','PhD']
+enc=OrdinalEncoder(categories=[education])
+encoded=enc.fit_transform(df2[['Ord_2']])
+df2['Encoded']=encoded
+print(df2)
+```
+
+![alt text](image-3.png)
+
+```
+df4=pd.DataFrame()
+df4['Ord_1']=df["Ord_1"]
+ohe=OneHotEncoder(sparse_output=False)
+enc=pd.DataFrame(ohe.fit_transform(df[["Ord_1"]]))
+df4=pd.concat([df4,enc],axis=1)
+df4
+```
+
+![alt text](<Screenshot 2025-10-16 081005.png>)
+
+```
+df5=pd.DataFrame()
+df5['City']=df['City']
+be=BinaryEncoder(cols=['City'])
+encoded=be.fit_transform(df['City'])
+df5=pd.concat([df5,encoded],axis=1)
+print(df5)
+```
+
+![alt text](image-4.png)
+
+```
+df=pd.DataFrame(pd.read_csv(r"C:\Users\acer\Downloads\Data_to_Transform.csv"))
+df
+
+```
+
+![alt text](image-5.png)
+
+```
+df['Highly PositiveSkew']=1/df['Highly Positive Skew']
+sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
+plt.show()
+
+```
+
+![alt text](image-6.png)
+
+```
+df['Moderate PositiveSkew']=np.sqrt(df['Moderate Positive Skew'])
+sm.qqplot(df['Moderate Positive Skew'],fit=True,line='45')
+plt.show()
+
+```
+![alt text](image-7.png)
+
+```
+df['Highly Positive Skew']=np.log(df['Highly Positive Skew'])
+sm.qqplot(df['Highly Positive Skew'],fit=True,line='45')
+plt.show()
+```
+
+![alt text](image-8.png)
+
+```
+from sklearn.preprocessing import PowerTransformer
+transformer=PowerTransformer("yeo-johnson")
+df["Moderate Negative Skew"]=pd.DataFrame(transformer.fit_transform(df[['Moderate Negative Skew']]))
+sm.qqplot(df['Moderate Negative Skew'],line='45')
+plt.show()
+```
+
+![alt text](image-9.png)
+
 # RESULT:
-       # INCLUDE YOUR RESULT HERE
+Thus Feature encoding and feature transformation has been done successfully with a given data set
 
        
